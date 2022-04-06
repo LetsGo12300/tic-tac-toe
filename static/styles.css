@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    text-align: center;
+    padding: 10%;
+}
+
+#title{
+    margin-bottom: 50px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameboard{
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    place-content: center;
+}
+
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 5em;
+}
+
+.box[data-column='1'], .box[data-column='2']{
+    border-right: 3px solid gray;
+}
+
+.box[data-row='1'], .box[data-row='2']{
+    border-bottom: 3px solid gray;
+}

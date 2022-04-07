@@ -67,6 +67,11 @@ body{
     box-shadow: 3px 3px #d6d3d1;
 }
 
+.reset-btn:hover{
+    background-color:#fcd34d;
+}
+
+
 .greet{
     margin: auto;
     width: fit-content;

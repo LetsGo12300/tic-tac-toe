@@ -1,7 +1,7 @@
 // FACTORY for PLAYERS
 
-const playerFactory = (name, symbol, color) => {
-    return { name, symbol, color };
+const playerFactory = (name, symbol) => {
+    return { name, symbol };
 };
 
 // MODULE for GAME BOARD

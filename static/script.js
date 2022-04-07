@@ -21,7 +21,6 @@ const gameBoard = (() => {
     const checkTie = () => {
         return boardArray.every(box => (box != ''));
     };
-
     const updateBoard = (boxIndex, symbol) => {
         boardArray[boxIndex] = symbol;
     };
@@ -49,23 +48,46 @@ const gameBoard = (() => {
 
 // MODULE for DISPLAY CONTROLLER
 const allBoxes = document.querySelectorAll('.box');
+const greeting = document.getElementById('greet');
 
 const displayController = (() => {
     const updateGrid = (boxIndex, symbol) => {
         let box = document.querySelector(`[data-index='${boxIndex}']`);
         box.textContent = symbol;
     };
+    const disableGame = () => {
+        allBoxes.forEach(box => {
+            box.style.pointerEvents = 'none';
+        });
+    };
+    const enableGame = () => {
+        allBoxes.forEach(box => {
+            box.style.pointerEvents = 'auto';
+        });
+    };
     const resetGrid = () => {
         // clear all boxes
-        allBoxes.forEach((box) => {
+        allBoxes.forEach(box => {
             box.textContent = '';
         });
         // return current player to player 1;
         currentPlayer = player1;
+        greeting.textContent = `${currentPlayer.name}'s turn`;
+        enableGame();
     };
+    const updateGreeting = (currentPlayer, text) => {
+        if (text === 'win'){
+            greeting.textContent = `${currentPlayer.name} wins!`;
+        } else if (text === 'tie'){
+            greeting.textContent = 'It\'s a tie!';
+        } else greeting.textContent = `${currentPlayer.name}'s turn`;
+    };
+    
     return {
       updateGrid,
-      resetGrid
+      resetGrid,
+      disableGame,
+      updateGreeting,
     };
 })();
 
@@ -84,12 +106,17 @@ document.addEventListener('click', (ele) => {
             //Check if there is a winner
             if (gameBoard.checkWinner(currentPlayer)){
                 // DISABLE GAME, announce winner
-                console.log(`${currentPlayer.name} wins!`);
+                displayController.disableGame();
+                displayController.updateGreeting(currentPlayer, 'win');
             } else if (!gameBoard.checkWinner(currentPlayer) && gameBoard.checkTie()){
                 // DISABLE GAME, announce tie
-                console.log('It\'s a tie!');
+                displayController.disableGame();
+                displayController.updateGreeting(currentPlayer, 'tie');
+            } else {
+                currentPlayer = (currentPlayer == player1 ? player2 : player1);
+                displayController.updateGreeting(currentPlayer);
             }
-            currentPlayer = (currentPlayer == player1 ? player2 : player1);
+            
         }
     }
     
@@ -101,7 +128,8 @@ document.addEventListener('click', (ele) => {
 });
 
 
-const player1 = playerFactory('player1', 'X'); // X
-const player2 = playerFactory('player2', 'O'); // O
+const player1 = playerFactory('Player 1', 'X'); // X
+const player2 = playerFactory('Player 2', 'O'); // O
 
 let currentPlayer = player1;
+displayController.updateGreeting(currentPlayer);

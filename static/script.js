@@ -18,6 +18,9 @@ const gameBoard = (() => {
         [0, 4, 8],
         [2, 4, 6],
     ];
+    const checkTie = () => {
+        return boardArray.every(box => (box != ''));
+    };
 
     const updateBoard = (boxIndex, symbol) => {
         boardArray[boxIndex] = symbol;
@@ -32,7 +35,6 @@ const gameBoard = (() => {
                 testArray.push(boardArray[winningCombinations[i][j]]);
             }
             if (testArray.every(box => (box === currentPlayer.symbol))){
-                console.log(`${currentPlayer.name} wins!`);
                 return true;
             }
         }
@@ -40,12 +42,13 @@ const gameBoard = (() => {
     return {
         updateBoard,
         resetBoard,
-        checkWinner
+        checkWinner,
+        checkTie
     };
 })();
 
 // MODULE for DISPLAY CONTROLLER
-const allBoxes = Array.from(document.querySelectorAll('.box'));
+const allBoxes = document.querySelectorAll('.box');
 
 const displayController = (() => {
     const updateGrid = (boxIndex, symbol) => {
@@ -80,7 +83,11 @@ document.addEventListener('click', (ele) => {
             
             //Check if there is a winner
             if (gameBoard.checkWinner(currentPlayer)){
-                // DISABLE GAME
+                // DISABLE GAME, announce winner
+                console.log(`${currentPlayer.name} wins!`);
+            } else if (!gameBoard.checkWinner(currentPlayer) && gameBoard.checkTie()){
+                // DISABLE GAME, announce tie
+                console.log('It\'s a tie!');
             }
             currentPlayer = (currentPlayer == player1 ? player2 : player1);
         }

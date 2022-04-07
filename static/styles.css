@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 *{
     margin: 0;
     padding: 0;
@@ -5,8 +8,15 @@
 
 body{
     text-align: center;
-    padding: 10%;
-    font-family: Arial, Helvetica, sans-serif;
+    padding: 5%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#title{
+    font-family: 'Pacifico', cursive;
+    font-size: 4em;
+    color:#fbbf24;
+    text-shadow: 2px 2px #000000;
 }
 
 .container{
@@ -14,6 +24,7 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 5em;
 }
 
 .gameboard{
@@ -41,12 +52,37 @@ body{
 }
 
 .reset-btn{
-    margin-top: 3em;
-    width: 50px;
-    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    font-size: 1em;
+    margin: auto;
+    width: fit-content;
+    height: 100%;
+    padding: 5px 15px;
+    border-radius: 10px;
+    border: none;
+    background-color:#fbbf24;
+    box-shadow: 3px 3px #d6d3d1;
 }
 
-#greet{
+.greet{
+    margin: auto;
+    width: fit-content;
+    padding: 2px 20px;
     margin-top: 20px;
     margin-bottom: 50px;
+    font-size: 1.5em;
+    border-radius: 10px;
+    background-color: #d6d3d1;
+    box-shadow: 3px 3px #aaa7a5;
+}
+
+#win{
+    background-color: #a3e635;
+}
+
+#tie{
+    background-color: #c084fc;
 }

@@ -1,7 +1,7 @@
 // FACTORY for PLAYERS
 
-const playerFactory = (name, symbol) => {
-    return { name, symbol };
+const playerFactory = (name, symbol, color) => {
+    return { name, symbol, color };
 };
 
 // MODULE for GAME BOARD
@@ -48,7 +48,7 @@ const gameBoard = (() => {
 
 // MODULE for DISPLAY CONTROLLER
 const allBoxes = document.querySelectorAll('.box');
-const greeting = document.getElementById('greet');
+const greeting = document.querySelector('.greet');
 
 const displayController = (() => {
     const updateGrid = (boxIndex, symbol) => {
@@ -74,12 +74,15 @@ const displayController = (() => {
         currentPlayer = player1;
         greeting.textContent = `${currentPlayer.name}'s turn`;
         enableGame();
+        greeting.id = '';
     };
     const updateGreeting = (currentPlayer, text) => {
         if (text === 'win'){
             greeting.textContent = `${currentPlayer.name} wins!`;
+            greeting.id = 'win';
         } else if (text === 'tie'){
             greeting.textContent = 'It\'s a tie!';
+            greeting.id = 'tie';
         } else greeting.textContent = `${currentPlayer.name}'s turn`;
     };
     
@@ -128,7 +131,7 @@ document.addEventListener('click', (ele) => {
 });
 
 
-const player1 = playerFactory('Player 1', 'X'); // X
+const player1 = playerFactory('Player 1', 'X', ); // X
 const player2 = playerFactory('Player 2', 'O'); // O
 
 let currentPlayer = player1;

@@ -6,6 +6,7 @@
 body{
     text-align: center;
     padding: 10%;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #title{
@@ -32,6 +33,7 @@ body{
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 5em;
+    cursor: pointer;
 }
 
 .box[data-column='1'], .box[data-column='2']{
@@ -40,4 +42,10 @@ body{
 
 .box[data-row='1'], .box[data-row='2']{
     border-bottom: 3px solid gray;
+}
+
+.reset-btn{
+    margin-top: 3em;
+    width: 50px;
+    padding: 5px;
 }

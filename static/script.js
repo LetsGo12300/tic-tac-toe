@@ -1,42 +1,63 @@
 // FACTORY for PLAYERS
 
 const playerFactory = (name, symbol) => {
-    // let turn = 'yes'; ???
     return { name, symbol };
 };
-  
-const player1 = playerFactory('player1', 'X'); // X
-const player2 = playerFactory('player2', 'O'); // O
 
 // MODULE for GAME BOARD
 
 const gameBoard = (() => {
-    let boardArray = [[]];
-    const checkWinner = () => {
-        
+    let boardArray = ['','','','','','','','',''];
+    let winningCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+
+    const updateBoard = (boxIndex, symbol) => {
+        boardArray[boxIndex] = symbol;
+    };
+    const resetBoard = () => {
+        boardArray = boardArray = ['','','','','','','','',''];
+    };
+    const checkWinner = (symbol) => {
+        let winner = false;
+        for (let i = 0; i < winningCombinations.length; i++){
+            let testArray =  [];
+            for (let j = 0; j < 3; j++){
+                testArray.push(boardArray[winningCombinations[i][j]]);
+            }
+            winner = testArray.every(box => (box === symbol));
+        }
+        return winner;
     };
     return {
-        boardArray,
+        updateBoard,
+        resetBoard,
         checkWinner
     };
 })();
 
 // MODULE for DISPLAY CONTROLLER
+const allBoxes = Array.from(document.querySelectorAll('.box'));
 
 const displayController = (() => {
-    const updateGrid = (row, column, symbol) => {
-        let box = document.querySelector(`[data-row='${row}'][data-column='${column}']`);
-        //Checks if the box is already taken by a symbol
-        if (box.textContent === ''){
-            box.textContent = symbol;
-            return true;
-        } else return false;
+    const updateGrid = (boxIndex, symbol) => {
+        let box = document.querySelector(`[data-index='${boxIndex}']`);
+        box.textContent = symbol;
     };
     const resetGrid = () => {
-        let allBoxes = document.querySelectorAll('.box');
+        // clear all boxes
         allBoxes.forEach((box) => {
             box.textContent = '';
         });
+        // return current player to player 1;
+        currentPlayer = player1;
     };
     return {
       updateGrid,
@@ -44,15 +65,34 @@ const displayController = (() => {
     };
 })();
 
+// EVENT LISTENERS
+
 document.addEventListener('click', (ele) => {
-    const clickedBox = ele.target;
+    const clickedElement = ele.target;
 
     // if a box is clicked
-    if (clickedBox.className === 'box'){
-        console.log('box was clicked');    
+    if (clickedElement.className === 'box'){
+        let clickedBoxIndex = clickedElement.getAttribute('data-index'); 
+        if (clickedElement.textContent === ''){
+            displayController.updateGrid(clickedBoxIndex, currentPlayer.symbol);
+            gameBoard.updateBoard(clickedBoxIndex, currentPlayer.symbol);
+            gameBoard.checkWinner(currentPlayer.symbol);
+            currentPlayer = (currentPlayer == player1 ? player2 : player1);
+        }
     }
     
+    // if reset button is clicked
+    if (clickedElement.className === 'reset-btn'){
+        displayController.resetGrid();
+        gameBoard.resetBoard();
+    }
 });
 
+
+const player1 = playerFactory('player1', 'X'); // X
+const player2 = playerFactory('player2', 'O'); // O
+
+let currentPlayer = player1;
+
 // how to reset board -> displayController.resetGrid();
-//how to update -> displayController.updateGrid(1,2,player2.symbol);
+// how to update -> displayController.updateGrid([data-index],player2.symbol);

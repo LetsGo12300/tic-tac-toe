@@ -25,16 +25,17 @@ const gameBoard = (() => {
     const resetBoard = () => {
         boardArray = boardArray = ['','','','','','','','',''];
     };
-    const checkWinner = (symbol) => {
-        let winner = false;
+    const checkWinner = (currentPlayer) => {
         for (let i = 0; i < winningCombinations.length; i++){
             let testArray =  [];
             for (let j = 0; j < 3; j++){
                 testArray.push(boardArray[winningCombinations[i][j]]);
             }
-            winner = testArray.every(box => (box === symbol));
+            if (testArray.every(box => (box === currentPlayer.symbol))){
+                console.log(`${currentPlayer.name} wins!`);
+                return true;
+            }
         }
-        return winner;
     };
     return {
         updateBoard,
@@ -76,7 +77,11 @@ document.addEventListener('click', (ele) => {
         if (clickedElement.textContent === ''){
             displayController.updateGrid(clickedBoxIndex, currentPlayer.symbol);
             gameBoard.updateBoard(clickedBoxIndex, currentPlayer.symbol);
-            gameBoard.checkWinner(currentPlayer.symbol);
+            
+            //Check if there is a winner
+            if (gameBoard.checkWinner(currentPlayer)){
+                // DISABLE GAME
+            }
             currentPlayer = (currentPlayer == player1 ? player2 : player1);
         }
     }
@@ -93,6 +98,3 @@ const player1 = playerFactory('player1', 'X'); // X
 const player2 = playerFactory('player2', 'O'); // O
 
 let currentPlayer = player1;
-
-// how to reset board -> displayController.resetGrid();
-// how to update -> displayController.updateGrid([data-index],player2.symbol);
